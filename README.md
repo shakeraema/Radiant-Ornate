@@ -15,3 +15,8 @@ updates, and other relevant notifications to users. Frontend:
 1. User Interface Design: Design and develop a user-friendly interface using React.js, ensuring responsiveness and compatibility across various devices. 2. Product Display and Filtering: Implement features for displaying products, organizing
 them into categories, and allowing users to filter products based on their preferences. 3. Shopping Cart and Checkout: Design and implement shopping cart functionality, allowing users to add products to their cart, view cart contents, and proceed to
 checkout seamlessly.
+
+
+
+Thunder client using instead of postman. 
+tailwincss 
