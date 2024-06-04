@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+=======
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -39,3 +45,4 @@ body {
   input[type=number] {
     -moz-appearance: textfield;
   }
+>>>>>>> 7e590d98a21212a4d594d26095cd0b45ace757ac
