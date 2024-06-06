@@ -1,20 +1,31 @@
 {
-  "name": "ecommerce-project",
+  "name": "e-shop-tutorial",
   "version": "1.0.0",
-  "description": "An e-commerce platform tailored for the students of Ladies Hall, providing a convenient\r marketplace where local artisans and small businesses can showcase and sell their handmade\r products such as cakes, jewelry, and other unique items.",
-  "main": "backend/server.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "description": "",
+  "main": "server.js",
+  "engines": {
+    "node": "18.x"
   },
-  "author": "Shakera",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js"
+  },
+  "author": "shahriar Sajeeb",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^1.37.3",
     "cookie-parser": "^1.4.6",
-    "dotenv": "^16.4.5",
-    "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.4.1",
-    "nodemailer": "^6.9.13",
-    "nodemon": "^3.1.2"
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.19.2",
+    "express-fileupload": "^1.5.0",
+    "js-cookie": "^3.0.1",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.0.0",
+    "nodemailer": "^6.9.1",
+    "nodemon": "^2.0.20",
+    "stripe": "^12.0.0"
   }
 }
