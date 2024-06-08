@@ -9,7 +9,7 @@ export const registerController = async (req, res) => {
     const { name, email, password, phone, address, answer } = req.body;
     //validations
     if (!name) {
-      return res.send({ error: "Name is Required" });
+      return res.send({ message: "Name is Required" });
     }
     if (!email) {
       return res.send({ message: "Email is Required" });
@@ -96,12 +96,12 @@ export const loginController = async (req, res) => {
       success: true,
       message: "login successfully",
       user: {
-          id: user.id,
+        id: user.id,
         name: user.name,
         email: user.email,
         phone: user.phone,
         address: user.address,
-          role: user.role,
+        role: user.role,
       },
       token,
     });
@@ -116,7 +116,6 @@ export const loginController = async (req, res) => {
 };
 
 //testController
-export const testController = (req,res) =>
-    {
-        res.send("Protected Route");
-    };
+export const testController = (req, res) => {
+  res.send("Protected Route");
+};
