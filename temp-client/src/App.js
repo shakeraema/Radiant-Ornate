@@ -6,12 +6,16 @@ import PageNotFound from "./pages/PageNotFound";
 import Policy from "./pages/Policy";
 import Register from "./pages/Auth/Register";
 
-const App = () => {
+import "react-toastify/dist/ReactToastify.css";
+import Login from "./pages/Auth/Login";
+
+function App() {
   return (
     <>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/policy" element={<Policy />} />
@@ -19,6 +23,6 @@ const App = () => {
       </Routes>
     </>
   );
-};
+}
 
 export default App;
