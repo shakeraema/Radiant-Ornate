@@ -13,7 +13,7 @@ const ForgotPassword = () => {
   const navigate = useNavigate();
 
   // form function
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => { 
     e.preventDefault();
     try {
       const res = await axios.post("/api/v1/auth/forgot-password", {
@@ -30,7 +30,7 @@ const ForgotPassword = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong");
+      toast.error("Something went wrong amar matha tmr mundu");
     }
   };
   return (
