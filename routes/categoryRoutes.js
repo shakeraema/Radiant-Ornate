@@ -21,7 +21,7 @@ router.post(
 
 //update category
 router.put(
-  "/update-category/:id", //name o hote pare
+  "/update-category/:id",
   requireSignIn,
   isAdmin,
   updateCategoryController
@@ -35,7 +35,7 @@ router.get("/single-category/:slug", singleCategoryController);
 
 //delete category
 router.delete(
-  "/delete-category/:id",         //name o hote pare
+  "/delete-category/:id",
   requireSignIn,
   isAdmin,
   deleteCategoryCOntroller
