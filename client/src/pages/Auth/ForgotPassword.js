@@ -30,7 +30,7 @@ const ForgotPassword = () => {
       }
     } catch (error) {
       console.log(error);
-      toast.error("Something went wrong amar matha tmr mundu");
+      toast.error("Something went wrong");
     }
   };
   return (
