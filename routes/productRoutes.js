@@ -9,6 +9,8 @@ import {
   updateProductController,
   productCountController,
   productListController,
+  productCategoryController,
+
   searchProductController,
   realtedProductController,
 } from "../controllers/productController.js";
