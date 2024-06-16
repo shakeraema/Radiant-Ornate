@@ -176,3 +176,4 @@ export const updateProductController = async (req, res) => {
     });
   }
 };
+
