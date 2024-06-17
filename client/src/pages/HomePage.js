@@ -3,11 +3,13 @@ import Layout from "./../components/Layout/Layout";
 import { useAuth } from "../context/auth";
 import axios from "axios";
 import { Checkbox, Radio } from "antd";
+import { Prices } from "../components/Prices";
 const HomePage = () => {
   // const [auth, setAuth] = useAuth();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [checked, setChecked] = useState([]);
+  const [radio, setRadio] = useState([]);
 
    //get all category
    const getAllCategory = async () => {
@@ -49,8 +51,29 @@ const HomePage = () => {
   };
 
   useEffect(() =>{
+   if (!checked.length || !radio.length)
     getAllProducts();
-  }, [])
+  //eslint-disable-next-line
+  }, [checked.length, radio.length])
+
+  useEffect(() => {
+    if (checked.length || radio.length) filterProduct();
+  }, [checked, radio]);
+
+  //get filtered products
+
+  const filterProduct = async () => {
+    try {
+      const { data } = await axios.post("/api/v1/product/product-filters", {
+        checked,
+        radio,
+      });
+      setProducts(data?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <Layout title={"ALL Products Best offers "}>
       <div className="row mt-3">
@@ -68,10 +91,23 @@ const HomePage = () => {
             ))
           }
           </div>
+          {/* //filter by price */}
+          <h4 className="text-center mt-4"> Filter By Price(BDT)</h4>
+          <div className="d-flex flex-column">
+          <Radio.Group onChange={(e) => setRadio(e.target.value)}>
+            {
+              Prices?.map((p) => (
+                <div key={p._id}>
+                  <Radio value={p.array}>{p.name}</Radio>
+                </div>
+              ))
+            }
+          </Radio.Group>
+          </div>
         </div>
         <div className="col-md-9">
           {
-            JSON.stringify(checked, null, 4)
+            JSON.stringify(radio, null, 4)
           }
           <h1 className="text-center"> All Products</h1>
           <div className="d-flex flex-wrap">
@@ -85,6 +121,7 @@ const HomePage = () => {
                   <div className="card-body">
                     <h5 className="card-title">{p.name}</h5>
                     <p className="card-text">{p.description}</p>
+                    <p className="card-text">৳ {p.price}</p>
                     <button class="btn btn-primary ms-1">More details</button>
                     <button class="btn btn-secondary ms-1">Add to Cart</button>
                   </div>
