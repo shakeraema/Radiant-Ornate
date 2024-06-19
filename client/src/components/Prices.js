@@ -1,4 +1,4 @@
-// ৳
+//৳ 
 export const Prices = [
     {
       _id: 0,
