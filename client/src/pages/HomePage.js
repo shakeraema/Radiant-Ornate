@@ -124,8 +124,7 @@ const HomePage = () => {
             {categories?.map((c) => (
               <Checkbox
                 key={c._id}
-                onChange={(e) => handleFilter(e.target.checked, c._id)}
-              >
+                onChange={(e) => handleFilter(e.target.checked, c._id)}>
                 {c.name}
               </Checkbox>
             ))}
@@ -144,8 +143,7 @@ const HomePage = () => {
           <div className="d-flex flex-column">
             <button
               className="btn btn-danger"
-              onClick={() => window.location.reload()}
-            >
+              onClick={() => window.location.reload()}>
               RESET FILTERS
             </button>
           </div>
@@ -157,7 +155,7 @@ const HomePage = () => {
           <h1 className="text-center"> All Products</h1>
           <div className="d-flex flex-wrap">
             {products?.map((p) => (
-              <div className="card m-2" style={{ width: "18rem" }}>
+              <div className="card m-2" style={{ width: "18rem" }} key={p._id}>
                 <img
                   src={`/api/v1/product/product-photo/${p._id}`}
                   className="card-img-top"
@@ -170,19 +168,22 @@ const HomePage = () => {
                   </p>
                   <p className="card-text">৳ {p.price}</p>
                   <button
-                    class="btn btn-primary ms-1"
-                    onClick={() => Navigate(`/product/${p.slug}`)}
-                  >
+                    className="btn btn-primary ms-1"
+                    onClick={() => Navigate(`/product/${p.slug}`)}>
                     More details
                   </button>
-                  <button className="btn btn-secondary ms-1" onClick={() => {
+                  <button
+                    className="btn btn-secondary ms-1"
+                    onClick={() => {
                       setCart([...cart, p]);
                       localStorage.setItem(
                         "cart",
                         JSON.stringify([...cart, p])
                       );
                       toast.success("Item Added to cart");
-                    }}>Add to Cart</button>
+                    }}>
+                    Add to Cart
+                  </button>
                 </div>
               </div>
             ))}
@@ -194,8 +195,7 @@ const HomePage = () => {
                 onClick={(e) => {
                   e.preventDefault();
                   setPage(page + 1);
-                }}
-              >
+                }}>
                 {loading ? "Loading ..." : "Loadmore"}
               </button>
             )}

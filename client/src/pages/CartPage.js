@@ -3,17 +3,18 @@ import Layout from "./../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+
 const CartPage = () => {
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
   const [cart, setCart] = useCart();
   const navigate = useNavigate();
 
-  //total price
+  // Calculate total price
   const totalPrice = () => {
     try {
       let total = 0;
-      cart?.map((item) => {
-        total = total + item.price;
+      cart?.forEach((item) => {
+        total += item.price;
       });
       return total.toLocaleString("en-US", {
         style: "currency",
@@ -23,7 +24,8 @@ const CartPage = () => {
       console.log(error);
     }
   };
-  //delete item
+
+  // Remove item from cart
   const removeCartItem = (pid) => {
     try {
       let myCart = [...cart];
@@ -35,6 +37,7 @@ const CartPage = () => {
       console.log(error);
     }
   };
+
   return (
     <Layout>
       <div className="container">
@@ -45,17 +48,17 @@ const CartPage = () => {
             </h1>
             <h4 className="text-center">
               {cart?.length
-                ? `You Have ${cart.length} items in your cart ${
+                ? `You have ${cart.length} items in your cart ${
                     auth?.token ? "" : "please login to checkout"
                   }`
-                : " Your Cart Is Empty"}
+                : "Your Cart is Empty"}
             </h4>
           </div>
         </div>
         <div className="row">
           <div className="col-md-8">
             {cart?.map((p) => (
-              <div className="row mb-2 p-3 card flex-row">
+              <div className="row mb-2 p-3 card flex-row" key={p._id}>
                 <div className="col-md-4">
                   <img
                     src={`/api/v1/product/product-photo/${p._id}`}
@@ -68,11 +71,10 @@ const CartPage = () => {
                 <div className="col-md-8">
                   <p>{p.name}</p>
                   <p>{p.description.substring(0, 30)}</p>
-                  <p>Price : {p.price}</p>
+                  <p>Price: {p.price}</p>
                   <button
                     className="btn btn-danger"
-                    onClick={() => removeCartItem(p._id)}
-                  >
+                    onClick={() => removeCartItem(p._id)}>
                     Remove
                   </button>
                 </div>
@@ -83,7 +85,7 @@ const CartPage = () => {
             <h2>Cart Summary</h2>
             <p>Total | Checkout | Payment</p>
             <hr />
-            <h4>Total : {totalPrice()} </h4>
+            <h4>Total: {totalPrice()}</h4>
             {auth?.user?.address ? (
               <>
                 <div className="mb-3">
@@ -91,9 +93,15 @@ const CartPage = () => {
                   <h5>{auth?.user?.address}</h5>
                   <button
                     className="btn btn-outline-warning"
-                    onClick={() => navigate("/dashboard/user/profile")}
-                  >
+                    onClick={() => navigate("/dashboard/user/profile")}>
                     Update Address
+                  </button>
+                </div>
+                <div>
+                  <button
+                    className="btn btn-primary mt-3"
+                    onClick={() => navigate("/checkout")}>
+                    Proceed to Checkout
                   </button>
                 </div>
               </>
@@ -102,8 +110,7 @@ const CartPage = () => {
                 {auth?.token ? (
                   <button
                     className="btn btn-outline-warning"
-                    onClick={() => navigate("/dashboard/user/profile")}
-                  >
+                    onClick={() => navigate("/dashboard/user/profile")}>
                     Update Address
                   </button>
                 ) : (
@@ -113,8 +120,7 @@ const CartPage = () => {
                       navigate("/login", {
                         state: "/cart",
                       })
-                    }
-                  >
+                    }>
                     Please Login to checkout
                   </button>
                 )}
