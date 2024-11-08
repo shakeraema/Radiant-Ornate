@@ -31,8 +31,7 @@ const Header = () => {
             data-bs-target="#navbarTogglerDemo01"
             aria-controls="navbarTogglerDemo01"
             aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
+            aria-label="Toggle navigation">
             <span className="navbar-toggler-icon" />
           </button>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
@@ -55,8 +54,7 @@ const Header = () => {
                 <Link
                   className="nav-link dropdown-toggle"
                   to={"/categories"}
-                  data-bs-toggle="dropdown"
-                >
+                  data-bs-toggle="dropdown">
                   Categories
                 </Link>
                 <ul className="dropdown-menu">
@@ -66,11 +64,10 @@ const Header = () => {
                     </Link>
                   </li>
                   {categories?.map((c) => (
-                    <li>
+                    <li key={c.id || c.slug}>
                       <Link
                         className="dropdown-item"
-                        to={`/category/${c.slug}`}
-                      >
+                        to={`/category/${c.slug}`}>
                         {c.name}
                       </Link>
                     </li>
@@ -98,8 +95,7 @@ const Header = () => {
                       href="#"
                       role="button"
                       data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
+                      aria-expanded="false">
                       {auth?.user?.name}
                     </NavLink>
                     <ul className="dropdown-menu">
@@ -108,8 +104,7 @@ const Header = () => {
                           to={`/dashboard/${
                             auth?.user?.role === 1 ? "admin" : "user"
                           }`}
-                          className="dropdown-item"
-                        >
+                          className="dropdown-item">
                           Dashboard
                         </NavLink>
                       </li>
@@ -117,8 +112,7 @@ const Header = () => {
                         <NavLink
                           onClick={handleLogout}
                           to="/login"
-                          className="dropdown-item"
-                        >
+                          className="dropdown-item">
                           Logout
                         </NavLink>
                       </li>
