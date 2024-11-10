@@ -20,7 +20,7 @@ const Contact = () => {
             available
           </p>
           <p className="mt-3">
-            <BiMailSend /> : www.help@ecommerceapp.com
+            <BiMailSend /> : www.help@radiant-ornate.com
           </p>
           <p className="mt-3">
             <BiPhoneCall /> : 01742329796
@@ -33,6 +33,5 @@ const Contact = () => {
     </Layout>
   );
 };
-//have to modify contact info
 
 export default Contact

@@ -1,8 +1,11 @@
 import userModel from "../models/userModel.js";
 
+
 import { comparePassword, hashPassword } from "./../helpers/authHelper.js";
 
 import JWT from "jsonwebtoken";
+import { logActivity } from "./activityLogController";
+
 
 export const registerController = async (req, res) => {
   try {
@@ -90,6 +93,18 @@ export const loginController = async (req, res) => {
         message: "Invalid Password",
       });
     }
+
+    //activity log
+
+    const loginUser = async (req, res) => {
+      const { email, password } = req.body;
+      if (user) {
+        await logActivity(user._id, "LOGIN", "User logged in");
+        res.status(200).send({ message: "Login successful", user });
+      } else {
+        res.status(401).send({ message: "Invalid credentials" });
+      }
+    };
 
     //token
     const token = await JWT.sign({ id: user.id }, process.env.JWT_SECRET, {

@@ -152,7 +152,7 @@ const HomePage = () => {
           {
             // JSON.stringify(radio, null, 4)
           }
-          <h1 className="text-center"> All Products</h1>
+          <h1 className="bg-dark p-2 text-white text-center">ALL PRODUCTS</h1>
           <div className="d-flex flex-wrap">
             {products?.map((p) => (
               <div className="card m-2" style={{ width: "18rem" }} key={p._id}>
@@ -196,7 +196,7 @@ const HomePage = () => {
                   e.preventDefault();
                   setPage(page + 1);
                 }}>
-                {loading ? "Loading ..." : "Loadmore"}
+                {loading ? "Loading ..." : "Load More..."}
               </button>
             )}
           </div>

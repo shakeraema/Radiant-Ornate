@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "./../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import toast from "react-hot-toast";
 
 const CartPage = () => {
   const [auth] = useAuth();
   const [cart, setCart] = useCart();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // Calculate total price
@@ -35,6 +38,37 @@ const CartPage = () => {
       localStorage.setItem("cart", JSON.stringify(myCart));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  // Handle payment initiation with SSLCommerz
+  const initiatePayment = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post("/api/v1/payment/initiate", {
+        total_amount: cart.reduce((total, item) => total + item.price, 0),
+        currency: "BDT",
+        cus_name: auth?.user?.name || "Guest",
+        cus_email: auth?.user?.email || "guest@example.com",
+        cus_phone: auth?.user?.phone || "N/A",
+        cus_addr: auth?.user?.address || "N/A",
+        cart, // Include cart items to track purchase
+        product_name: "Cart Products", // Provide a name for the transaction
+      });
+
+      setLoading(false);
+
+      if (response.data?.GatewayPageURL) {
+        // Redirect user to SSLCommerz payment page
+        window.location.href = response.data.GatewayPageURL;
+      } else {
+        console.log("Payment initiation response:", response.data);
+        toast.error("Failed to initiate payment. Please try again.");
+      }
+    } catch (error) {
+      setLoading(false);
+      console.error("Payment initiation error:", error);
+      toast.error("An error occurred while initiating payment.");
     }
   };
 
@@ -100,8 +134,9 @@ const CartPage = () => {
                 <div>
                   <button
                     className="btn btn-primary mt-3"
-                    onClick={() => navigate("/checkout")}>
-                    Proceed to Checkout
+                    onClick={initiatePayment}
+                    disabled={loading}>
+                    {loading ? "Processing..." : "Proceed to Payment"}
                   </button>
                 </div>
               </>

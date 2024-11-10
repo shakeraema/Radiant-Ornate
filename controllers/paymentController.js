@@ -18,10 +18,10 @@ export const initiatePayment = async (req, res) => {
       cus_name: req.body.cus_name,
       cus_email: req.body.cus_email,
       cus_phone: req.body.cus_phone,
-      cus_add1: req.body.cus_addr, // Changed to cus_add1
-      cus_city: "Dhaka", // SSLCommerz requires a city field
-      cus_country: "Bangladesh", // SSLCommerz requires a country field
-      product_name: req.body.product_name || "E-commerce Products", // Fallback to a generic product name if not provided
+      cus_add1: req.body.cus_addr, 
+      cus_city: "Dhaka", 
+      cus_country: "Bangladesh", 
+      product_name: req.body.product_name || "E-commerce Products", 
     };
 
     const response = await axios.post(

@@ -6,7 +6,7 @@ import { useAuth } from "../context/auth";
 import toast from "react-hot-toast";
 
 const CheckoutPage = () => {
-  const [cart] = useCart();
+  const [cart, setCart] = useCart();
   const [auth] = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -17,15 +17,19 @@ const CheckoutPage = () => {
     setLoading(true);
     try {
       // Initiate payment request to backend
-      const response = await axios.post("/api/v1/payment/initiate", {
-        total_amount: totalPrice,
-        currency: "BDT",
-        cus_name: auth?.user?.name,
-        cus_email: auth?.user?.email,
-        cus_phone: auth?.user?.phone,
-        cus_addr: auth?.user?.address,
-        product_name: "Cart Products",
-      });
+      const response = await axios.post(
+        "/api/v1/payment/initiate",
+        {
+          total_amount: totalPrice,
+          currency: "BDT",
+          cus_name: auth?.user?.name || "Guest",
+          cus_email: auth?.user?.email || "guest@example.com",
+          cus_phone: auth?.user?.phone || "N/A",
+          cus_addr: auth?.user?.address || "N/A",
+          cart, // Include cart items to track purchase
+          product_name: "Cart Products", // Provide a name for the transaction
+        }
+      );
 
       setLoading(false);
 
@@ -49,7 +53,7 @@ const CheckoutPage = () => {
         <h2 className="text-center">Checkout</h2>
         <div className="row">
           <div className="col-md-8">
-            {cart.map((item, index) => (
+            {cart.map((item) => (
               <div key={item._id} className="card mb-3">
                 <div className="row g-0">
                   <div className="col-md-4">

@@ -1,7 +1,91 @@
 import productModel from "../models/productModel.js";
 import categoryModel from "../models/categoryModel.js";
+import orderModel from "../models/orderModel.js";
+
 import fs from "fs";
 import slugify from "slugify";
+import axios from "axios";
+import dotenv from "dotenv";
+
+dotenv.config();
+
+// Function to initiate SSLCommerz payment
+export const sslCommerzPaymentController = async (req, res) => {
+  try {
+    const { cart, cus_name, cus_email, cus_phone, cus_addr } = req.body;
+    
+    // Calculate total amount from cart items
+    const totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
+
+    const paymentData = {
+      store_id: process.env.SSLC_STORE_ID,
+      store_passwd: process.env.SSLC_STORE_PASSWORD,
+      total_amount: totalAmount,
+      currency: "BDT",
+      tran_id: `tran_${Date.now()}`,
+      success_url: "http://localhost:8080/api/v1/payment/success",
+      fail_url: "http://localhost:8080/api/v1/payment/fail",
+      cancel_url: "http://localhost:8080/api/v1/payment/cancel",
+      cus_name,
+      cus_email,
+      cus_phone,
+      cus_add1: cus_addr,
+      cus_city: "Dhaka",
+      cus_country: "Bangladesh",
+      product_name: req.body.product_name || "E-commerce Products",
+    };
+
+    const response = await axios.post(
+      "https://sandbox.sslcommerz.com/gwprocess/v3/api.php",
+      new URLSearchParams(paymentData).toString(),
+      {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      }
+    );
+
+    if (response.data?.GatewayPageURL) {
+      res.status(200).json({ GatewayPageURL: response.data.GatewayPageURL });
+    } else {
+      res.status(500).json({ message: "Failed to initiate payment" });
+    }
+  } catch (error) {
+    console.error("Error initiating SSLCommerz payment:", error);
+    res.status(500).json({ message: "Payment initiation failed", error });
+  }
+};
+
+// Callback for successful payment
+export const sslCommerzPaymentSuccessController = async (req, res) => {
+  try {
+    const { tran_id, val_id, amount, card_type, card_brand, cus_name } = req.body;
+
+    // Save order in database
+    const order = new orderModel({
+      products: req.body.cart, // Ensure cart is included in the success request
+      payment: { tran_id, val_id, amount, card_type, card_brand },
+      buyer: req.user._id,
+    });
+
+    await order.save();
+
+    res.status(200).json({ message: "Payment successful", order });
+  } catch (error) {
+    console.error("Error handling SSLCommerz success callback:", error);
+    res.status(500).json({ message: "Error saving payment success data", error });
+  }
+};
+
+// Callback for failed payment
+export const sslCommerzPaymentFailController = (req, res) => {
+  console.log("Payment failed:", req.body);
+  res.status(400).json({ message: "Payment failed", data: req.body });
+};
+
+// Callback for canceled payment
+export const sslCommerzPaymentCancelController = (req, res) => {
+  console.log("Payment was cancelled:", req.body);
+  res.status(200).json({ message: "Payment cancelled", data: req.body });
+};
 
 export const createProductController = async (req, res) => {
   try {

@@ -4,13 +4,20 @@ import axios from "axios";
 const PaymentComponent = ({ auth, cart, totalAmount }) => {
   const initiatePayment = async () => {
     try {
+      // Prepare the request data
       const response = await axios.post("/api/v1/payment/initiate", {
-        amount: totalAmount,
-        cus_name: auth.user?.name,
-        cus_email: auth.user?.email,
+        cart,
+        cus_name: auth.user?.name || "Guest",
+        cus_email: auth.user?.email || "guest@example.com",
         cus_phone: auth.user?.phone || "N/A",
+        cus_addr: auth.user?.address || "N/A",
       });
-      window.location.href = response.data.url; // Redirect to SSLCommerz payment page
+
+      if (response.data.GatewayPageURL) {
+        window.location.href = response.data.GatewayPageURL;
+      } else {
+        console.error("Payment initiation failed: No GatewayPageURL found");
+      }
     } catch (error) {
       console.error("Payment initiation failed", error);
     }

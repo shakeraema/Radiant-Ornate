@@ -5,6 +5,9 @@ import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import axios from "axios";
 
+import ActivityLog from '../../components/ActivityLog';
+
+
 
 const Profile = () => {
 
@@ -56,13 +59,14 @@ const Profile = () => {
 
   return (
     <Layout title={"Your Profile"}>
-        <div className="container-fluid p-3 m-3 dashboard">
+      <div className="container-fluid p-3 m-3 dashboard">
         <div className="row">
           <div className="col-md-3">
-          <UserMenu/>
+            <UserMenu />
+            <ActivityLog />
           </div>
           <div className="col-md-9">
-          <div className="form-container ">
+            <div className="form-container ">
               <form onSubmit={handleSubmit}>
                 <h4 className="title">USER PROFILE</h4>
                 <div className="mb-3">
@@ -117,7 +121,6 @@ const Profile = () => {
                     placeholder="Enter Your Address"
                   />
                 </div>
-
                 <button type="submit" className="btn btn-primary">
                   UPDATE
                 </button>
@@ -127,8 +130,7 @@ const Profile = () => {
         </div>
       </div>
     </Layout>
-
-  )
+  );
 }
 
 export default Profile

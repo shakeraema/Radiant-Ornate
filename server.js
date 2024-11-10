@@ -10,6 +10,9 @@ import cors from "cors";
 import categoryRoutes from "./routes/categoryRoutes.js";
 import productRoutes from "./routes/productRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
+// import activityLogRoutes from "./routes/activityLogRoutes";
+
+
 
 //configure env
 dotenv.config();
@@ -29,6 +32,7 @@ app.use(express.urlencoded({ extended: true }));
 
 //routes
 app.use("/api/v1/auth", authRoutes);
+// app.use("/api/v1/activity-log", activityLogRoutes);
 app.use("/api/v1/category", categoryRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/payment", paymentRoutes);

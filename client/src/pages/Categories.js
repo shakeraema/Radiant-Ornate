@@ -7,6 +7,7 @@ const Categories = () => {
   return (
     <Layout title={"All Categories"}>
       <div className="container">
+        <h1 className="bg-dark p-2 text-white text-center">ALL CATEGORIES</h1>
         <div className="row">
           {categories.map((c) => (
             <div className="col-md-6 mt-5 mb-3 gx-2 gy-2" key={c._id}>
